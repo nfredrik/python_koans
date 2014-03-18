@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+ #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # Project: Create a Proxy Class
@@ -22,13 +22,24 @@ from runner.koan import *
 class Proxy(object):
     def __init__(self, target_object):
         # WRITE CODE HERE
-
+        self._messages = list()
         #initialize '_obj' attribute last. Trust me on this!
         self._obj = target_object
 
     # WRITE CODE HERE
+    
+    def __getattr__(self, attr_name):
+ 
+        self._messages.append(attr_name) 
+        return self._obj.__getattribute__(self, attr_name)    
 
 
+    def __setattr__(self, attr_name, value):
+        self.messages.append(attr_name) 
+        self._obj.__setattr__(self, new_attr_name, value)
+    
+    
+    
 # The proxy object should pass the following Koan:
 #
 class AboutProxyObjectProject(Koan):

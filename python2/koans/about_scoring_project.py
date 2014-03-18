@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+ #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 from runner.koan import *
@@ -18,7 +18,7 @@ from runner.koan import *
 # * A one (that is not part of a set of three) is worth 100 points.
 #
 # * A five (that is not part of a set of three) is worth 50 points.
-#
+# 
 # * Everything else is worth 0 points.
 #
 #
@@ -33,10 +33,57 @@ from runner.koan import *
 #
 # Your goal is to write the score method.
 
+from collections import Counter
+
+def ones (number, counts):
+    sum = 0
+    if counts >= 3:
+        sum+=1000
+        if counts > 3:
+            sum+=100
+    elif counts > 0:
+        sum+=number*counts * 100
+    
+    return sum
+
+def fives (number, counts):
+    sum = 0
+    if counts >= 3:
+        sum+=500
+        if counts > 3:
+            sum+=50
+    elif counts > 0:
+        sum+=number*counts * 10
+    
+    return sum
+
+def others (number, counts):
+    sum = 0
+    if counts >= 3:
+        sum+= number * 100
+    
+    return sum
+
+
 def score(dice):
     # You need to write this method
-    pass
+     
+    summan = 0
+    
+    summan += ones(1, dice.count(1))
+    
+    summan += fives(5, dice.count(5))
+    
+    summan += others(2, dice.count(2))
 
+    summan += others(3, dice.count(3))
+     
+    summan += others(4, dice.count(4))
+
+    summan += others(6, dice.count(6))
+   
+    return summan
+                
 
 class AboutScoringProject(Koan):
     def test_score_of_an_empty_list_is_zero(self):
