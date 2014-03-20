@@ -19,12 +19,16 @@ class Player(object):
     def __init__(self, name):
         self._name = name
         self._score = 0
+        self._finished = False
         
     def save_score(self,score):
         self._score += score
-    
-    def reached_win_score(self):
-        return  self._score >= 3000
+        
+        if self._score >= 3000:
+            self._finished = True
+
+    def finished(self):
+        return self._finished
     
     def get_score(self):
         return self._score
@@ -47,7 +51,7 @@ class Greeds(object):
 import itertools
 
                         
-players = [Player("Janne"), Player("Olle")]
+players = [Player("Janne"), Player("Olle"), Player("Sussi")]
 cycle = itertools.cycle(players)
 
   
@@ -66,10 +70,10 @@ class AboutExtraCredit(Koan):
         nisse = Player("Nisse")
         nisse.save_score(300)
         
-        self.assertEqual(False, nisse.reached_win_score())
+        self.assertEqual(False, nisse.finished())
     
         nisse.save_score(3000)
-        self.assertEqual(True, nisse.reached_win_score())
+        self.assertEqual(True, nisse.finished())
         
         #self.assertTrue(False)  # This should be true
         
@@ -89,13 +93,13 @@ class AboutExtraCredit(Koan):
         while True:
             
             player = get_cycle()
-            if player.reached_win_score():
-                print "We reached our goal"
+            
+            if player.finished():
+                # Everyone had a chance after ther first scored 30000
                 break
             
             player.save_score(greed.play())
             count+=1
-            #print janne.get_score()
             
         print "count:", count
         
